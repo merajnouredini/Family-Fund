@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    DataBase fund_db;
-    fund_db.set_database_table();
+
 
 //    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 //    db.setDatabaseName("AccountDB");

@@ -3,23 +3,10 @@
 
 #include <QtSql>
 #include <string>
+#include <iostream>
+#include <sqlite3/source/sqlite3.h>  // for testing another way
 using namespace std;
 
-class DataBase
-{
-private:
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QSqlQuery query;
-    QSqlTableModel model;
-
-public:
-    DataBase();
-    //    ~DataBase();
-    void set_database_table(void);
-    void add_account(void);
-    void get_account(/*filter*/);
-};
-#endif // FUNDDATABASE_H
 class Account {
 private:
     string name;
@@ -34,7 +21,6 @@ private:
 
 
 public:
-    friend class DataBase;
     Account(string new_name ,int new_credit_no ,int new_phone_no ,int new_stock = 0 ,int new_membership = 0
                  ,int new_loan = 0 ,int new_payment = 0 ,int new_debt = 0) {
         name = new_name;
@@ -46,22 +32,31 @@ public:
         payment = new_payment;
         debt = new_debt;
         // creating database
-//        db = sqlite3.connect(self.name)
-//        c = db.cursor()
-        DataBase::db.exec("CREATE TABLE main(Name text ,Account_no integer ,Phone_no integer ,Stock integer ,Membership real ,Loan real ,Payment real ,Debt real )");
-//        c.execute('''insert into main(new_name ,new_account_no ,new_phone_no ,new_stock ,new_membership ,
-//                    new_loan ,new_payment ,new_debt )''')
-//        db.commit()
-//        c.close()
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+        QSqlQuery query;
+        QSqlTableModel model(0,db);
+
+        db.setHostName("erfan");
+        db.setDatabaseName("test_db");
+        db.open();
+        query.exec("CREATE TABLE account(Account_no int, "
+                                   "naam varchar(255), phone_num int, "
+                                   "creditcard int, mojudi int, "
+                                   "bedehi int, loan int, "
+                                   "payment int, member_ship int  )");
+        query.exec("INSERT INTO account(1,name,phone_nocredit_no,stock,membership,loan,payment,debt");
+        db.commit();
+        db.close();
+        // *******************************************************************\\
+
+
+
+        // *******************************************************************\\
     }
     void disbarsement(int amount){
-//        assert (type(amount) == int) and (amount < self.loan)
         loan -= amount;
-//        db = sqlite3.connect(self.name)
-//        c = db.cursor()
-//        c.execute('''insert into main(Loan) values(loan)''')
-//        db.commit()
-//        c.close()
+//        query.exec("insert into main(Loan) values(loan)");
+//        db.commit();
     }
 
     void borrow(int amount) {
@@ -148,3 +143,4 @@ public:
         return membership;
     }
 };
+#endif

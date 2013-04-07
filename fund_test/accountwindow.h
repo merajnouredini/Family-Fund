@@ -23,6 +23,10 @@ private slots:
 
     void on_close_button_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_submit_pressed();
+
 private:
     QString fields[9];
     QSqlRecord record;
