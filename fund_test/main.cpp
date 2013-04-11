@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
     db.open();
     QApplication a(argc, argv);
     MainWindow mw;
-    AccountWindow aw;
-    Database_error de;
+//    AccountWindow aw;
+//    Database_error de;
     mw.show();
 
     return a.exec();

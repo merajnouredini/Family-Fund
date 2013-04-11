@@ -10,32 +10,39 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    acc_win = new AccountWindow;
-
     fdb.set_database_table();
-
-    QSqlTableModel *model = new QSqlTableModel();
+    model = new QSqlTableModel();
+    acc_win = new AccountWindow(ui->tableView);
     model->setTable("account");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
-
     ui->tableView->setModel(model);
-//    ui->tableView->show();
+    connect(acc_win, SIGNAL(triggerRefresh()), this, SLOT(refresh()));
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete model;
+    delete acc_win;
 }
 
 void MainWindow::on_actionAdd_Account_triggered()
 {
     acc_win->show();
+
 }
 
 
-void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+void MainWindow::refresh()
 {
-    acc_win->show_account(index);
+    model->select();
+    ui->tableView->setModel(model);
+}
+
+void MainWindow::refresh_table()
+{
+    model->select();
+    ui->tableView->setModel(model);
 }

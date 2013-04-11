@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include "FundDatabase.h"
 
+
+
 namespace Ui {
 class AccountWindow;
 }
@@ -16,6 +18,7 @@ class AccountWindow : public QDialog
     
 public:
     friend class FundDatabase;
+    friend class MainWindow;
     explicit AccountWindow(QWidget *parent = 0);
     void show_account(const QModelIndex&);
 
@@ -25,11 +28,14 @@ private slots:
     void on_submit_clicked();
     void on_close_button_clicked();
 
+signals:
+    void triggerRefresh();
+
 private:
     QString fields[9];
     FundDatabase fdb;
     QSqlRecord record;
-    QSqlTableModel model;
+    QSqlTableModel *model;
     Ui::AccountWindow *ui;
 };
 

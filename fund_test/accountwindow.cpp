@@ -13,6 +13,9 @@ AccountWindow::AccountWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(ui->submit, SIGNAL(clicked()), this,
+            SIGNAL(triggerRefresh()));
+
     fields[0] = "Hello World";
     ui->lineEdit_0->insert(fields[0]);
     ui->lineEdit_1->insert(fields[1]);
@@ -24,11 +27,13 @@ AccountWindow::AccountWindow(QWidget *parent) :
     ui->lineEdit_7->insert(fields[7]);
     ui->lineEdit_8->insert(fields[8]);
 
+
 }
 
 AccountWindow::~AccountWindow()
 {
     delete ui;
+    delete model;
 }
 
 void AccountWindow::on_submit_clicked()
@@ -45,16 +50,11 @@ void AccountWindow::on_submit_clicked()
 
     fdb.add_account(fields);
 
-//    for(int i; i<9; i++)
-//    {
-//        record.field(i).setValue(fields[i]);
-//        qDebug() << fields[i];
-//    }
-//    model.insertRecord(0,record);
-//    model.submitAll();
-//    QString name = model.record(-1).value("name").toString();
-//    ui->lineEdit_10->insert(name);
-//    qDebug() << name;
+    //model.select()
+
+    AccountWindow::close();
+
+
 }
 
 void AccountWindow::show_account(const QModelIndex &index)
